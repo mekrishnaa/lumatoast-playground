@@ -1,0 +1,685 @@
+<div class="playground-container" [class.light-theme]="isLightMode()">
+  <!-- Top Hero Header (styled matching https://lumatoast.vercel.app/) -->
+  <header class="pg-header">
+    <div class="pg-header-row">
+      <img class="pg-logo" src="assets/lumatoast.jpg" alt="LumaToast Logo" />
+      <div class="pg-header-text">
+        <h1>LumaToast</h1>
+        <p>Interactive feature playground — test every option live</p>
+      </div>
+    </div>
+
+    <!-- Real-time Status Bar powered by toast.subscribe() with Dark/Light Toggle -->
+    <div class="status-bar">
+      <div class="badge">
+        <span class="badge-dot"></span>
+        <span>Active Toasts: <strong>{{ activeToasts().length }}</strong></span>
+      </div>
+      <div class="badge">
+        <span>Max Visible: <strong>{{ maxVisible }}</strong></span>
+      </div>
+      <div class="badge">
+        <span>Default Duration: <strong>{{ durationDefault }}ms</strong></span>
+      </div>
+
+      <!-- Theme Switcher Button -->
+      <button class="theme-toggle-btn" (click)="toggleTheme()" [title]="isLightMode() ? 'Switch to Dark Mode' : 'Switch to Light Mode'">
+        <span>{{ isLightMode() ? '☀️ Light' : '🌙 Dark' }}</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Masonry Staggered Layout: No rigid linear row tracks or empty voids -->
+  <div class="dashboard-masonry">
+    <!-- 1. Built-in Types -->
+    <section class="feature-card">
+      <div class="card-header">
+        <h2 class="card-title">1. Built-in Types</h2>
+        <p class="card-desc">Core notification types with predefined accents and icons.</p>
+      </div>
+      <div class="card-buttons-grid">
+        <!-- Success -->
+        <div class="split-btn btn-success">
+          <button class="split-action" (click)="showSuccess()">
+            <span>✓</span> Success
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Success Toast Code', snippets.success)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+
+        <!-- Error -->
+        <div class="split-btn btn-error">
+          <button class="split-action" (click)="showError()">
+            <span>✕</span> Error
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Error Toast Code', snippets.error)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+
+        <!-- Warning -->
+        <div class="split-btn btn-warning">
+          <button class="split-action" (click)="showWarning()">
+            <span>⚠</span> Warning
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Warning Toast Code', snippets.warning)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+
+        <!-- Info -->
+        <div class="split-btn btn-info">
+          <button class="split-action" (click)="showInfo()">
+            <span>ℹ</span> Info
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Info Toast Code', snippets.info)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+
+        <!-- Loading -->
+        <div class="split-btn btn-purple">
+          <button class="split-action" (click)="showLoading()">
+            <span>⏳</span> Loading
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Loading Toast Code', snippets.loading)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+
+        <!-- Custom -->
+        <div class="split-btn">
+          <button class="split-action" (click)="showCustom()">
+            <span>✨</span> Custom
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Custom Toast Code', snippets.custom)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. 9 Built-in Themes -->
+    <section class="feature-card">
+      <div class="card-header">
+        <h2 class="card-title">2. 9 Built-in Themes</h2>
+        <p class="card-desc">Modern visual presets inspired by VisionOS, Linear, Cupertino, etc.</p>
+      </div>
+      <div class="card-buttons-grid">
+        @for (th of themeList; track th.id) {
+          <div class="split-btn btn-wide">
+            <button class="split-action" (click)="showTheme(th.id)">
+              <span>{{ th.icon }}</span> {{ th.name }}
+            </button>
+            <div class="split-divider"></div>
+            <button class="split-code-trigger" (click)="openModal(th.name + ' Theme Code', getThemeSnippet(th.id))" title="View Code Popup">
+              &lt;/&gt;
+            </button>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- 3. Promise & Mock APIs -->
+    <section class="feature-card">
+      <div class="card-header">
+        <h2 class="card-title">3. Promise / Async API</h2>
+        <p class="card-desc">Auto-transitions from loading to success or error with real mock APIs.</p>
+      </div>
+      <div class="card-buttons-grid">
+        <!-- Promise Success -->
+        <div class="split-btn btn-wide btn-success">
+          <button class="split-action" (click)="testPromiseSuccess()">
+            <span>⚡</span> Mock API Success
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Promise (Mock API Success)', snippets.promiseSuccess)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+
+        <!-- Promise Error -->
+        <div class="split-btn btn-wide btn-error">
+          <button class="split-action" (click)="testPromiseError()">
+            <span>⚠️</span> Mock API 500
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Promise (Mock API 500 Error)', snippets.promiseError)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. In-Place Updates -->
+    <section class="feature-card">
+      <div class="card-header">
+        <h2 class="card-title">4. In-Place Update</h2>
+        <p class="card-desc">Spawns a loading toast, fetches JSONPlaceholder user, and updates in-place.</p>
+      </div>
+      <div class="card-buttons-grid">
+        <div class="split-btn btn-full btn-purple">
+          <button class="split-action" (click)="testManualUpdateWithApi()">
+            <span>🔄</span> Fetch User & Update
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('In-Place Update Code', snippets.update)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Action Buttons -->
+    <section class="feature-card">
+      <div class="card-header">
+        <h2 class="card-title">5. Action Buttons</h2>
+        <p class="card-desc">Inline buttons with custom callbacks and 3 variants.</p>
+      </div>
+      <div class="card-buttons-grid">
+        <div class="split-btn">
+          <button class="split-action" (click)="showActionToast('solid')">
+            <span>🔘</span> Solid
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Solid Action Button Code', snippets.actionSolid)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+
+        <div class="split-btn">
+          <button class="split-action" (click)="showActionToast('outline')">
+            <span>🔲</span> Outline
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Outline Action Button Code', snippets.actionOutline)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+
+        <div class="split-btn">
+          <button class="split-action" (click)="showActionToast('ghost')">
+            <span>👻</span> Ghost
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Ghost Action Button Code', snippets.actionGhost)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Viewport Positions (All Wide so 'bottom-center' etc. never hide) -->
+    <section class="feature-card">
+      <div class="card-header">
+        <h2 class="card-title">6. Screen Positions</h2>
+        <p class="card-desc">Render notifications at any of the 6 anchors across the screen.</p>
+      </div>
+      <div class="card-buttons-grid">
+        @for (pos of ['top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center', 'bottom-right']; track pos) {
+          <div class="split-btn btn-wide">
+            <button class="split-action" (click)="showPosition($any(pos))">
+              <span>📌</span> {{ pos }}
+            </button>
+            <div class="split-divider"></div>
+            <button class="split-code-trigger" (click)="openModal('Position: ' + pos + ' Code', getPositionSnippet(pos))" title="View Code Popup">
+              &lt;/&gt;
+            </button>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- 7. Duration Variants -->
+    <section class="feature-card">
+      <div class="card-header">
+        <h2 class="card-title">7. Duration Variants</h2>
+        <p class="card-desc">Auto-dismiss timings from 2s up to Infinite with interactive action dismiss.</p>
+      </div>
+      <div class="card-buttons-grid">
+        <div class="split-btn btn-wide btn-success">
+          <button class="split-action" (click)="showDurationShort()">
+            <span>⚡</span> 2s (Short)
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('2s Short Duration Code', snippets.durationShort)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+
+        <div class="split-btn btn-wide btn-info">
+          <button class="split-action" (click)="showDurationDefault()">
+            <span>⏱️</span> 4s (Default)
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('4s Default Duration Code', snippets.durationDefault)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+
+        <div class="split-btn btn-wide btn-warning">
+          <button class="split-action" (click)="showDurationLong()">
+            <span>⏳</span> 8s (Long)
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('8s Long Duration Code', snippets.durationLong)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+
+        <div class="split-btn btn-wide btn-purple">
+          <button class="split-action" (click)="showDurationInfinite()">
+            <span>♾️</span> Infinite + Action
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Infinite Duration with Action Code', snippets.durationInfinite)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Progress Bar & Behaviors -->
+    <section class="feature-card">
+      <div class="card-header">
+        <h2 class="card-title">8. Progress Bar & Behaviors</h2>
+        <p class="card-desc">Top/bottom countdown placement, click-to-dismiss, and icon toggles.</p>
+      </div>
+      <div class="card-buttons-grid">
+        <div class="split-btn btn-wide btn-info">
+          <button class="split-action" (click)="showProgressPosition('top')">
+            <span>⬆️</span> Top Bar
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Progress Bar: Top Code', snippets.progressTop)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+
+        <div class="split-btn btn-wide btn-info">
+          <button class="split-action" (click)="showProgressPosition('bottom')">
+            <span>⬇️</span> Bottom Bar
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Progress Bar: Bottom Code', snippets.progressBottom)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+
+        <div class="split-btn btn-wide btn-info">
+          <button class="split-action" (click)="showCloseOnClick()">
+            <span>🖱️</span> Click Dismiss
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Click to Dismiss Code', snippets.closeOnClick)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+
+        <div class="split-btn btn-wide btn-success">
+          <button class="split-action" (click)="showWithoutIcon()">
+            <span>🚫</span> Hide Icon
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Hide Icon Code', snippets.hideIcon)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+
+        <div class="split-btn btn-wide btn-warning">
+          <button class="split-action" (click)="showNonDismissible()">
+            <span>🔒</span> No Close
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Non-Dismissible Code', snippets.nonDismissible)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. Animation Styles -->
+    <section class="feature-card">
+      <div class="card-header">
+        <h2 class="card-title">9. Enter & Exit Animations</h2>
+        <p class="card-desc">Entrance motions (bounce, scale, fade, slide, none) and exit transitions.</p>
+      </div>
+      <div class="card-buttons-grid">
+        <div class="split-btn btn-wide btn-warning">
+          <button class="split-action" (click)="showAnimation('bounce', 'fade')">
+            <span>🏀</span> Bounce
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Bounce In / Fade Out Code', snippets.animBounce)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+
+        <div class="split-btn btn-wide btn-warning">
+          <button class="split-action" (click)="showAnimation('scale', 'slide')">
+            <span>🔍</span> Scale
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Scale In / Slide Out Code', snippets.animScale)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+
+        <div class="split-btn btn-wide btn-warning">
+          <button class="split-action" (click)="showAnimation('fade', 'fade')">
+            <span>🌫️</span> Pure Fade
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Fade In / Out Code', snippets.animFade)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+
+        <div class="split-btn btn-wide btn-warning">
+          <button class="split-action" (click)="showAnimation('none', 'none')">
+            <span>⚡</span> Instant
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Instant Animation Code', snippets.animNone)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. Custom CSS Tokens & Themes -->
+    <section class="feature-card">
+      <div class="card-header">
+        <h2 class="card-title">10. Custom CSS & Tokens</h2>
+        <p class="card-desc">Apply inline <code>--luma-*</code> variables, custom classes, or themes.</p>
+      </div>
+      <div class="card-buttons-grid">
+        <div class="split-btn">
+          <button class="split-action" (click)="showInlineStyles()">
+            <span>🎨</span> Inline Vars
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Inline CSS Variables Code', snippets.inlineStyles)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+
+        <div class="split-btn">
+          <button class="split-action" (click)="showCustomClass()">
+            <span>🏷️</span> Class
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Custom CSS Class Code', snippets.customClass)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+
+        <!-- Brand Theme is Wide so text never truncates -->
+        <div class="split-btn btn-wide">
+          <button class="split-action" (click)="showCustomTheme()">
+            <span>⭐</span> Brand Theme
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Custom Brand Theme Code', snippets.customTheme)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. Global Presets & Manager -->
+    <section class="feature-card">
+      <div class="card-header">
+        <h2 class="card-title">11. Global Presets & Manager</h2>
+        <p class="card-desc">Change application-wide defaults or inspect active manager toasts.</p>
+      </div>
+      <div class="card-buttons-grid">
+        <!-- Cyberpunk is Wide so text never truncates -->
+        <div class="split-btn btn-wide">
+          <button class="split-action" (click)="applyGlobalPreset('cyber')">
+            <span>🤖</span> Cyberpunk
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Cyberpunk Preset Code', snippets.presetCyber)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+
+        <div class="split-btn btn-wide">
+          <button class="split-action" (click)="applyGlobalPreset('minimal')">
+            <span>⚪</span> Minimal
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Minimal Preset Code', snippets.presetMinimal)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+
+        <div class="split-btn btn-wide">
+          <button class="split-action" (click)="applyGlobalPreset('default')">
+            <span>🔄</span> Default
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Reset Default Config Code', snippets.presetDefault)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+
+        <div class="split-btn btn-wide">
+          <button class="split-action" (click)="inspectManagerToasts()">
+            <span>🔍</span> Manager
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Inspect ToastManager Code', snippets.inspectManager)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12. Custom Global Configurator -->
+    <section class="feature-card">
+      <div class="card-header">
+        <h2 class="card-title">12. Custom Global Configurator</h2>
+        <p class="card-desc">Select theme, position, animations, progress, and speed, then fire the toast.</p>
+      </div>
+      <div class="config-form-grid">
+        <!-- Theme -->
+        <div class="config-field">
+          <label class="config-label">Theme</label>
+          <select class="config-select" [ngModel]="configTheme()" (ngModelChange)="configTheme.set($event)">
+            <option value="linear">Linear</option>
+            <option value="aurora">Aurora</option>
+            <option value="vision">Vision</option>
+            <option value="minimal">Minimal</option>
+            <option value="cupertino">Cupertino</option>
+            <option value="material">Material</option>
+            <option value="terminal">Terminal</option>
+            <option value="github">GitHub</option>
+            <option value="cyberpunk">Cyberpunk</option>
+          </select>
+        </div>
+
+        <!-- Position -->
+        <div class="config-field">
+          <label class="config-label">Position</label>
+          <select class="config-select" [ngModel]="configPosition()" (ngModelChange)="configPosition.set($event)">
+            <option value="top-left">Top Left</option>
+            <option value="top-center">Top Center</option>
+            <option value="top-right">Top Right</option>
+            <option value="bottom-left">Bottom Left</option>
+            <option value="bottom-center">Bottom Center</option>
+            <option value="bottom-right">Bottom Right</option>
+          </select>
+        </div>
+
+        <!-- Enter Animation -->
+        <div class="config-field">
+          <label class="config-label">Enter Anim</label>
+          <select class="config-select" [ngModel]="configEnter()" (ngModelChange)="configEnter.set($event)">
+            <option value="slide">Slide</option>
+            <option value="fade">Fade</option>
+            <option value="scale">Scale</option>
+            <option value="bounce">Bounce</option>
+            <option value="none">None</option>
+          </select>
+        </div>
+
+        <!-- Exit Animation -->
+        <div class="config-field">
+          <label class="config-label">Exit Anim</label>
+          <select class="config-select" [ngModel]="configExit()" (ngModelChange)="configExit.set($event)">
+            <option value="slide">Slide</option>
+            <option value="fade">Fade</option>
+            <option value="none">None</option>
+          </select>
+        </div>
+
+        <!-- Progress Position -->
+        <div class="config-field">
+          <label class="config-label">Progress</label>
+          <select class="config-select" [ngModel]="configProgress()" (ngModelChange)="configProgress.set($event)">
+            <option value="bottom">Bottom</option>
+            <option value="top">Top</option>
+          </select>
+        </div>
+
+        <!-- Speed -->
+        <div class="config-field">
+          <label class="config-label">Speed</label>
+          <select class="config-select" [ngModel]="configSpeed()" (ngModelChange)="configSpeed.set($event)">
+            <option value="normal">Normal</option>
+            <option value="slow">Slow</option>
+            <option value="fast">Fast</option>
+          </select>
+        </div>
+
+        <!-- Type -->
+        <div class="config-field">
+          <label class="config-label">Type</label>
+          <select class="config-select" [ngModel]="configType()" (ngModelChange)="configType.set($event)">
+            <option value="success">Success</option>
+            <option value="info">Info</option>
+            <option value="warning">Warning</option>
+            <option value="error">Error</option>
+          </select>
+        </div>
+
+        <!-- Title -->
+        <div class="config-field">
+          <label class="config-label">Title</label>
+          <input type="text" class="config-input" [ngModel]="configTitle()" (ngModelChange)="configTitle.set($event)" placeholder="Title" />
+        </div>
+
+        <!-- Message -->
+        <div class="config-field config-field-full">
+          <label class="config-label">Message / Description</label>
+          <input type="text" class="config-input" [ngModel]="configMessage()" (ngModelChange)="configMessage.set($event)" placeholder="Message text" />
+        </div>
+      </div>
+
+      <!-- Action Button -->
+      <div class="split-btn btn-full btn-purple" style="margin-top: 4px;">
+        <button class="split-action" (click)="applyAndFireConfig()">
+          <span>🚀</span> Apply Config & Fire Toast
+        </button>
+        <div class="split-divider"></div>
+        <button class="split-code-trigger" (click)="openModal('Configured Toast Code', getConfiguredCodeSnippet())" title="View Config Code">
+          &lt;/&gt;
+        </button>
+      </div>
+    </section>
+
+    <!-- 13. Programmatic Dismissals -->
+    <section class="feature-card">
+      <div class="card-header">
+        <h2 class="card-title">13. Programmatic Dismissals</h2>
+        <p class="card-desc">Dismiss by ID, latest (Escape key), or clear all active notifications.</p>
+      </div>
+      <div class="card-buttons-grid">
+        <div class="split-btn btn-wide">
+          <button class="split-action" (click)="dismissLastToast()">
+            <span>🎯</span> Last ID
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Dismiss by ID Code', snippets.dismissId)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+
+        <div class="split-btn btn-wide">
+          <button class="split-action" (click)="dismissLatest()">
+            <span>⏪</span> Latest (Esc)
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Dismiss Latest Code', snippets.dismissLatest)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+
+        <div class="split-btn btn-wide btn-error">
+          <button class="split-action" (click)="dismissAll()">
+            <span>🧹</span> All
+          </button>
+          <div class="split-divider"></div>
+          <button class="split-code-trigger" (click)="openModal('Dismiss All Code', snippets.dismissAll)" title="View Code Popup">
+            &lt;/&gt;
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Real-Time Active Toasts Inspector -->
+  @if (activeToasts().length > 0) {
+    <section class="active-toasts-container">
+      <h3 style="margin-top: 0; margin-bottom: 10px; font-size: 1.05rem;">
+        Active Toasts in DOM ({{ activeToasts().length }})
+      </h3>
+      <div class="active-toasts-list">
+        @for (item of activeToasts(); track item.id) {
+          <div class="active-toast-item">
+            <div>
+              <span class="toast-type-pill">{{ item.type }}</span>
+              <strong style="margin-left: 8px;">{{ item.title || item.description }}</strong>
+              <span style="color: #64748b; margin-left: 8px; font-size: 0.75rem;">ID: {{ item.id }}</span>
+            </div>
+            <button class="btn-danger-outline" (click)="toast.dismiss(item.id)">
+              Dismiss
+            </button>
+          </div>
+        }
+      </div>
+    </section>
+  }
+
+  <!-- POPUP CODE MODAL -->
+  @if (modalOpen()) {
+    <div class="modal-backdrop" (click)="closeModal()">
+      <div class="modal-dialog" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h3 class="modal-title">
+            <span>&lt;/&gt;</span> {{ modalTitle() }}
+          </h3>
+          <button class="modal-close-icon" (click)="closeModal()" aria-label="Close modal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <pre class="modal-code-pre"><code>{{ modalCode() }}</code></pre>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-modal-cancel" (click)="closeModal()">Cancel</button>
+          <button class="btn-modal-copy" (click)="copyModalCode()">
+            <span>📋</span> Copy Code
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

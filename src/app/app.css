@@ -1,0 +1,725 @@
+/* Playground Container */
+.playground-container {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 36px 20px 70px;
+}
+
+/* Header Styles matching https://lumatoast.vercel.app/ */
+.pg-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  gap: 16px;
+}
+
+.pg-header-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.pg-logo {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  box-shadow: 0 0 25px rgba(56, 189, 248, 0.25), 0 6px 16px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  margin: 0;
+  object-fit: cover;
+  flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+.pg-logo:hover {
+  transform: scale(1.08) rotate(-2deg);
+  box-shadow: 0 0 35px rgba(168, 85, 247, 0.4), 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.pg-header-text {
+  text-align: left;
+}
+
+.pg-header h1 {
+  font-size: 2.1rem;
+  font-weight: 700;
+  line-height: 1.15;
+  background: linear-gradient(135deg, #60a5fa, #a78bfa, #34d399);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 3px;
+  letter-spacing: -0.02em;
+}
+
+.pg-header p {
+  color: #64748b;
+  font-size: 13.5px;
+  margin: 0;
+}
+
+/* Status Bar */
+.status-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 8px 22px;
+  background: #131720;
+  border: 1px solid #1e2433;
+  border-radius: 99px;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.825rem;
+  font-weight: 500;
+  color: #94a3b8;
+}
+
+.badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 10px #10b981;
+}
+
+.badge strong {
+  color: #f1f5f9;
+}
+
+.theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #1e2433;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f1f5f9;
+  border-radius: 99px;
+  padding: 4px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.theme-toggle-btn:hover {
+  background: #283347;
+  border-color: #6366f1;
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Masonry Layout: Cards flow naturally without rigid linear row spacing */
+.dashboard-masonry {
+  column-count: 3;
+  column-gap: 20px;
+}
+
+@media (max-width: 1100px) {
+  .dashboard-masonry {
+    column-count: 2;
+    column-gap: 16px;
+  }
+}
+
+@media (max-width: 680px) {
+  .dashboard-masonry {
+    column-count: 1;
+  }
+}
+
+/* Feature Card (matches lumatoast.vercel.app .pg-section) */
+.feature-card {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  background: #131720;
+  border: 1px solid #1e2433;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.feature-card:hover {
+  border-color: #2e3a52;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.card-header {
+  margin-bottom: 14px;
+}
+
+.card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0 0 4px;
+  color: #f1f5f9;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-desc {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* Buttons Container inside Card */
+.card-buttons-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Split Button (Default: ~3 in one row, matches .pg-btn) */
+.split-btn {
+  display: inline-flex;
+  align-items: stretch;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #1e2433;
+  background: #1a1f2e;
+  height: 35px;
+  flex: 1 1 calc(33.333% - 8px);
+  min-width: 95px;
+  box-sizing: border-box;
+  transition: all 0.15s ease;
+}
+
+/* Wide Button: Takes half row (~2 in one row) so longer text has plenty of room */
+.split-btn.btn-wide {
+  flex: 1 1 calc(50% - 8px);
+  min-width: 135px;
+}
+
+/* Full Width Button */
+.split-btn.btn-full {
+  flex: 1 1 100%;
+  min-width: 180px;
+}
+
+.split-btn:hover {
+  background: #232a3b;
+  border-color: #2e3a52;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Left portion: Triggers Toast */
+.split-action {
+  flex: 1;
+  min-width: 0;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.775rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  color: #f1f5f9;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.split-action span:first-child {
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+/* Divider line */
+.split-divider {
+  width: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  flex-shrink: 0;
+}
+
+/* Right portion: Opens Code Popup */
+.split-code-trigger {
+  width: 28px;
+  flex-shrink: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.03);
+  border: none;
+  color: #93c5fd;
+  transition: all 0.15s ease;
+}
+
+.split-code-trigger:hover {
+  background: rgba(99, 102, 241, 0.3);
+  color: #ffffff;
+}
+
+/* Color theme variants */
+.split-btn.btn-success .split-action { color: #34d399; }
+.split-btn.btn-success { border-color: rgba(16, 185, 129, 0.28); }
+.split-btn.btn-success .split-code-trigger { color: #34d399; }
+.split-btn.btn-success .split-code-trigger:hover { background: rgba(16, 185, 129, 0.25); color: #6ee7b7; }
+
+.split-btn.btn-error .split-action { color: #f87171; }
+.split-btn.btn-error { border-color: rgba(239, 68, 68, 0.28); }
+.split-btn.btn-error .split-code-trigger { color: #f87171; }
+.split-btn.btn-error .split-code-trigger:hover { background: rgba(239, 68, 68, 0.25); color: #fca5a5; }
+
+.split-btn.btn-warning .split-action { color: #fbbf24; }
+.split-btn.btn-warning { border-color: rgba(245, 158, 11, 0.28); }
+.split-btn.btn-warning .split-code-trigger { color: #fbbf24; }
+.split-btn.btn-warning .split-code-trigger:hover { background: rgba(245, 158, 11, 0.25); color: #fde68a; }
+
+.split-btn.btn-info .split-action { color: #60a5fa; }
+.split-btn.btn-info { border-color: rgba(59, 130, 246, 0.28); }
+.split-btn.btn-info .split-code-trigger { color: #60a5fa; }
+.split-btn.btn-info .split-code-trigger:hover { background: rgba(59, 130, 246, 0.25); color: #93c5fd; }
+
+.split-btn.btn-purple .split-action { color: #c084fc; }
+.split-btn.btn-purple { border-color: rgba(168, 85, 247, 0.28); }
+.split-btn.btn-purple .split-code-trigger { color: #c084fc; }
+.split-btn.btn-purple .split-code-trigger:hover { background: rgba(168, 85, 247, 0.25); color: #e9d5ff; }
+
+/* POPUP MODAL STYLING */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  padding: 20px;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.modal-dialog {
+  background: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  max-width: 650px;
+  width: 100%;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65);
+  overflow: hidden;
+  animation: slideUp 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #f8fafc;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal-close-icon {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.modal-close-icon:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.modal-code-pre {
+  margin: 0;
+  padding: 16px;
+  background: #030712;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: #93c5fd;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 14px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.btn-modal-cancel {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #cbd5e1;
+  padding: 8px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-modal-cancel:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+}
+
+.btn-modal-copy {
+  background: #4f46e5;
+  border: 1px solid #6366f1;
+  color: #ffffff;
+  padding: 8px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-modal-copy:hover {
+  background: #4338ca;
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.5);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Active Toasts List */
+.active-toasts-container {
+  margin-top: 30px;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 20px;
+}
+
+.active-toasts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.active-toast-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.85rem;
+}
+
+.toast-type-pill {
+  padding: 2px 7px;
+  border-radius: 5px;
+  font-size: 0.725rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-danger-outline {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #f87171;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-danger-outline:hover {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: #ef4444;
+  color: #ffffff;
+}
+
+/* Interactive Global Config Card Form Controls */
+.config-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.config-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.config-label {
+  font-size: 0.725rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.config-select, .config-input {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #f8fafc;
+  border-radius: 8px;
+  padding: 6px 8px;
+  font-size: 0.775rem;
+  outline: none;
+  transition: border-color 0.15s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.config-select:focus, .config-input:focus {
+  border-color: #818cf8;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.25);
+}
+
+.config-field-full {
+  grid-column: 1 / -1;
+}
+
+/* ==========================================================================
+   Light Mode Theme Overrides
+   ========================================================================== */
+.playground-container.light-theme .status-bar {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+.playground-container.light-theme .badge {
+  color: #64748b;
+}
+
+.playground-container.light-theme .badge strong {
+  color: #0f172a;
+}
+
+.playground-container.light-theme .theme-toggle-btn {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #1e293b;
+}
+
+.playground-container.light-theme .theme-toggle-btn:hover {
+  background: #e2e8f0;
+  border-color: #94a3b8;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.playground-container.light-theme .feature-card {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.playground-container.light-theme .feature-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+.playground-container.light-theme .card-title {
+  color: #0f172a;
+}
+
+.playground-container.light-theme .card-desc {
+  color: #64748b;
+}
+
+/* Split Button Light Overrides */
+.playground-container.light-theme .split-btn {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+.playground-container.light-theme .split-btn:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.playground-container.light-theme .split-action {
+  color: #1e293b;
+}
+
+.playground-container.light-theme .split-action:hover {
+  background: #f1f5f9;
+}
+
+.playground-container.light-theme .split-code-trigger {
+  background: #f1f5f9;
+  border-left-color: #e2e8f0;
+  color: #4f46e5;
+}
+
+.playground-container.light-theme .split-code-trigger:hover {
+  background: #e0e7ff;
+  color: #4338ca;
+}
+
+/* Split Variant Overrides for Light Theme */
+.playground-container.light-theme .btn-success {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+.playground-container.light-theme .btn-success .split-action {
+  color: #15803d;
+}
+.playground-container.light-theme .btn-success .split-code-trigger {
+  background: #dcfce7;
+  border-left-color: #bbf7d0;
+  color: #166534;
+}
+
+.playground-container.light-theme .btn-error {
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+.playground-container.light-theme .btn-error .split-action {
+  color: #b91c1c;
+}
+.playground-container.light-theme .btn-error .split-code-trigger {
+  background: #fee2e2;
+  border-left-color: #fecaca;
+  color: #991b1b;
+}
+
+.playground-container.light-theme .btn-warning {
+  background: #fffbeb;
+  border-color: #fde68a;
+}
+.playground-container.light-theme .btn-warning .split-action {
+  color: #b45309;
+}
+.playground-container.light-theme .btn-warning .split-code-trigger {
+  background: #fef3c7;
+  border-left-color: #fde68a;
+  color: #92400e;
+}
+
+.playground-container.light-theme .btn-info {
+  background: #f0f9ff;
+  border-color: #bae6fd;
+}
+.playground-container.light-theme .btn-info .split-action {
+  color: #0369a1;
+}
+.playground-container.light-theme .btn-info .split-code-trigger {
+  background: #e0f2fe;
+  border-left-color: #bae6fd;
+  color: #075985;
+}
+
+.playground-container.light-theme .btn-purple {
+  background: #faf5ff;
+  border-color: #e9d5ff;
+}
+.playground-container.light-theme .btn-purple .split-action {
+  color: #7e22ce;
+}
+.playground-container.light-theme .btn-purple .split-code-trigger {
+  background: #f3e8ff;
+  border-left-color: #e9d5ff;
+  color: #6b21a8;
+}
+
+.playground-container.light-theme .btn-danger-outline {
+  background: #fef2f2;
+  border-color: #fca5a5;
+  color: #dc2626;
+}
+
+.playground-container.light-theme .btn-danger-outline:hover {
+  background: #fee2e2;
+  border-color: #ef4444;
+}
+
+/* Config Form Controls in Light Theme */
+.playground-container.light-theme .config-label {
+  color: #64748b;
+}
+
+.playground-container.light-theme .config-select,
+.playground-container.light-theme .config-input {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+.playground-container.light-theme .config-select:focus,
+.playground-container.light-theme .config-input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+/* Active Toasts Container in Light Theme */
+.playground-container.light-theme .active-toasts-container {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.playground-container.light-theme .active-toast-item {
+  background: #f8fafc;
+  border-color: #e2e8f0;
+  color: #1e293b;
+}
+
+.playground-container.light-theme .toast-type-pill {
+  background: #e2e8f0;
+  color: #334155;
+}

@@ -1,0 +1,49 @@
+/* Global styles and LumaToast CSS */
+@import "lumatoast/styles.css";
+
+/* Base page styles */
+:root {
+  --bg-gradient: radial-gradient(circle at top right, #1e1b4b, #0f172a 60%);
+  --panel-bg: rgba(30, 41, 59, 0.7);
+  --panel-border: rgba(255, 255, 255, 0.08);
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --primary-color: #6366f1;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: #0d0f14;
+  color: #e2e8f0;
+  min-height: 100vh;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+body.light-theme {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+/* Custom class demonstration: Allows overriding card appearance via CSS */
+.my-brand-toast .luma-toast-card {
+  background: linear-gradient(135deg, #1e1e38, #2d1b4e);
+  border: 2px solid #8b5cf6;
+  box-shadow: 0 10px 30px rgba(139, 92, 246, 0.35);
+}
+
+/* Custom Theme demonstration: Define a whole new theme using --luma-* CSS variables */
+.luma-theme-brand {
+  --luma-bg: #1a1a2e;
+  --luma-border-color: #e040fb;
+  --luma-border-width: 2px;
+  --luma-radius: 20px;
+  --luma-shadow: 0 0 24px rgba(224, 64, 251, 0.3);
+  --luma-title-color: #ce93d8;
+  --luma-desc-color: #9c27b0;
+  --luma-font: "Inter", system-ui, sans-serif;
+  --luma-progress-success: linear-gradient(90deg, #e040fb, #7c4dff);
+  --luma-action-bg: rgba(224, 64, 251, 0.12);
+  --luma-action-color: #e040fb;
+}
