@@ -42,6 +42,42 @@
   text-align: left;
 }
 
+.pg-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.npm-badge-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(203, 56, 55, 0.15);
+  border: 1px solid rgba(203, 56, 55, 0.4);
+  color: #ff8585;
+  padding: 3px 9px;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  letter-spacing: 0.2px;
+}
+
+.npm-badge-link:hover {
+  background: rgba(203, 56, 55, 0.3);
+  border-color: #ef4444;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(203, 56, 55, 0.35);
+}
+
+.npm-icon {
+  fill: currentColor;
+  display: block;
+}
+
 .pg-header h1 {
   font-size: 2.1rem;
   font-weight: 700;
@@ -722,4 +758,17 @@
 .playground-container.light-theme .toast-type-pill {
   background: #e2e8f0;
   color: #334155;
+}
+
+.playground-container.light-theme .npm-badge-link {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #dc2626;
+}
+
+.playground-container.light-theme .npm-badge-link:hover {
+  background: #fee2e2;
+  border-color: #ef4444;
+  color: #b91c1c;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
 }
